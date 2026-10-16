@@ -1,0 +1,361 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>David Ayikambey</title>
+<meta name="description" content="David Ayikambey — Ph.D. student in Statistics at Iowa State University working on small area estimation.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #faf7f2; --surface: #ffffff; --ink: #1d1b19; --muted: #6b645c;
+    --accent: #9e1b32; --accent-soft: #f6e4e7; --gold: #c99a2e; --line: #e8e1d6;
+    --side: #241f1c; --side-ink: #f3ede4; --side-muted: #b9ada0;
+  }
+  :root[data-theme="dark"] {
+    --bg: #141210; --surface: #1d1a17; --ink: #ece6dd; --muted: #a59b8f;
+    --accent: #e0697d; --accent-soft: #3a2026; --gold: #e2b84f; --line: #2f2a25;
+    --side: #0e0c0b; --side-ink: #f3ede4; --side-muted: #a2968a;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --bg: #141210; --surface: #1d1a17; --ink: #ece6dd; --muted: #a59b8f;
+      --accent: #e0697d; --accent-soft: #3a2026; --gold: #e2b84f; --line: #2f2a25;
+      --side: #0e0c0b; --side-ink: #f3ede4; --side-muted: #a2968a;
+    }
+  }
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body { margin: 0; background: var(--bg); color: var(--ink);
+         font: 16.5px/1.7 "Inter", system-ui, sans-serif; }
+  a { color: var(--accent); text-decoration: none; border-bottom: 1px solid transparent; }
+  a:hover { border-bottom-color: currentColor; }
+  h1, h2, h3 { font-family: "Fraunces", Georgia, serif; font-weight: 700; line-height: 1.2; }
+
+  /* ---------- Sidebar ---------- */
+  .layout { display: grid; grid-template-columns: 320px 1fr; min-height: 100vh; }
+  aside { background: var(--side); color: var(--side-ink); position: sticky; top: 0; height: 100vh;
+          padding: 48px 32px; display: flex; flex-direction: column; gap: 24px; overflow-y: auto; }
+  .avatar { width: 150px; height: 150px; border-radius: 50%; object-fit: cover;
+            border: 3px solid var(--gold); background: #3a332d; display: grid; place-items: center;
+            font: 700 2.6rem "Fraunces", serif; color: var(--gold); }
+  aside h1 { font-size: 1.9rem; margin: 0; }
+  .role { color: var(--side-muted); margin: 4px 0 0; font-size: .95rem; }
+  .side-nav { display: flex; flex-direction: column; gap: 2px; margin-top: 8px; }
+  .side-nav a { color: var(--side-ink); padding: 7px 12px; border-radius: 8px; border: 0; font-weight: 500; }
+  .side-nav a:hover, .side-nav a.active { background: rgba(255,255,255,.08); color: var(--gold); }
+  .socials { display: flex; gap: 10px; margin-top: auto; flex-wrap: wrap; }
+  .socials a, .theme-btn { width: 40px; height: 40px; border-radius: 10px; display: grid; place-items: center;
+            background: rgba(255,255,255,.07); border: 0; color: var(--side-ink); cursor: pointer; }
+  .socials a:hover, .theme-btn:hover { background: var(--gold); color: var(--side); }
+  .socials svg, .theme-btn svg { width: 19px; height: 19px; fill: currentColor; }
+
+  /* ---------- Main ---------- */
+  main { padding: 64px clamp(20px, 6vw, 88px) 40px; max-width: 980px; }
+  section { padding: 28px 0 36px; border-bottom: 1px solid var(--line); scroll-margin-top: 20px; }
+  section:last-of-type { border-bottom: 0; }
+  .eyebrow { text-transform: uppercase; letter-spacing: .14em; font-size: .78rem; font-weight: 600; color: var(--accent); margin: 0 0 6px; }
+  h2 { font-size: 2rem; margin: 0 0 18px; }
+  .hero h2 { font-size: clamp(2.2rem, 5vw, 3.2rem); margin-bottom: 20px; }
+  .hero h2 span { color: var(--accent); }
+  .lead { font-size: 1.12rem; }
+  .cta { display: flex; gap: 12px; flex-wrap: wrap; margin-top: 24px; }
+  .btn { padding: 10px 18px; border-radius: 999px; font-weight: 600; font-size: .95rem; border: 1.5px solid var(--accent); }
+  .btn.primary { background: var(--accent); color: #fff; }
+  .btn.ghost { color: var(--accent); }
+  .btn:hover { border-bottom-color: var(--accent); opacity: .9; }
+
+  .chips { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 8px; }
+  .chip { background: var(--accent-soft); color: var(--accent); padding: 5px 13px; border-radius: 999px; font-size: .88rem; font-weight: 500; }
+
+  .now { background: var(--surface); border: 1px solid var(--line); border-left: 4px solid var(--gold);
+         border-radius: 12px; padding: 18px 22px; margin-top: 28px; }
+  .now strong { font-family: "Fraunces", serif; }
+
+  /* Timeline */
+  .timeline { position: relative; margin: 0; padding: 0 0 0 26px; list-style: none; }
+  .timeline::before { content: ""; position: absolute; left: 6px; top: 6px; bottom: 6px; width: 2px; background: var(--line); }
+  .timeline li { position: relative; margin-bottom: 26px; }
+  .timeline li::before { content: ""; position: absolute; left: -26px; top: 7px; width: 14px; height: 14px;
+                         border-radius: 50%; background: var(--bg); border: 3px solid var(--accent); }
+  .timeline h3 { font-size: 1.15rem; margin: 0; }
+  .when { font-size: .85rem; color: var(--muted); font-weight: 600; letter-spacing: .02em; }
+  .where { color: var(--muted); margin: 2px 0 0; }
+
+  /* Cards */
+  .cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 16px; }
+  .card { background: var(--surface); border: 1px solid var(--line); border-radius: 14px; padding: 22px;
+          transition: transform .15s, box-shadow .15s; }
+  .card:hover { transform: translateY(-3px); box-shadow: 0 10px 24px rgba(0,0,0,.06); }
+  .card h3 { font-size: 1.1rem; margin: 0 0 8px; }
+  .card p { margin: 0 0 12px; color: var(--muted); font-size: .95rem; }
+  .tag { font-size: .78rem; color: var(--muted); border: 1px solid var(--line); padding: 2px 8px; border-radius: 6px; margin-right: 4px; }
+
+  /* News */
+  .news { list-style: none; padding: 0; margin: 0; }
+  .news li { display: grid; grid-template-columns: 96px 1fr; gap: 16px; padding: 10px 0; border-bottom: 1px dashed var(--line); }
+  .news li:last-child { border-bottom: 0; }
+  .news .date { font-weight: 600; color: var(--accent); font-size: .9rem; }
+
+  .skills { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 18px; }
+  .skills h3 { font-size: 1rem; margin: 0 0 6px; }
+  .skills p { margin: 0; color: var(--muted); }
+
+  .contact { background: var(--side); color: var(--side-ink); border-radius: 18px; padding: 32px; }
+  .contact h2 { color: var(--side-ink); }
+  .contact a { color: var(--gold); }
+  footer { color: var(--muted); font-size: .85rem; padding: 24px 0 8px; }
+
+  /* Reveal on scroll */
+  .reveal { opacity: 0; transform: translateY(14px); transition: opacity .6s, transform .6s; }
+  .reveal.in { opacity: 1; transform: none; }
+  @media (prefers-reduced-motion: reduce) { .reveal { opacity: 1; transform: none; transition: none; } }
+
+  /* ---------- Phone ---------- */
+  @media (max-width: 860px) {
+    .layout { grid-template-columns: 1fr; }
+    aside { position: static; height: auto; padding: 32px 16px 24px; align-items: center; text-align: center; }
+    .avatar { width: 120px; height: 120px; }
+    .side-nav { flex-direction: row; flex-wrap: wrap; justify-content: center; }
+    .side-nav a { padding: 5px 10px; font-size: .92rem; }
+    .socials { margin-top: 4px; justify-content: center; }
+    main { padding: 32px 16px; }
+    .news li { grid-template-columns: 1fr; gap: 0; }
+  }
+</style>
+</head>
+<body>
+<div class="layout">
+
+  <!-- ===================== SIDEBAR ===================== -->
+  <aside>
+    <!-- To use your photo: replace this div with
+         <img class="avatar" src="photo.jpg" alt="David Ayikambey">  -->
+    <div class="avatar">DA</div>
+    <div>
+      <h1>David Ayikambey</h1>
+      <p class="role">Ph.D. Student in Statistics<br>Iowa State University</p>
+    </div>
+    <nav class="side-nav">
+      <a href="#about">About</a>
+      <a href="#news">News</a>
+      <a href="#education">Education</a>
+      <a href="#research">Research</a>
+      <a href="#manuscripts">Manuscripts</a>
+      <a href="#projects">Projects</a>
+      <a href="#teaching">Experience</a>
+      <a href="#awards">Awards</a>
+      <a href="#skills">Skills</a>
+      <a href="#contact">Contact</a>
+    </nav>
+    <div class="socials">
+      <a href="https://www.linkedin.com/in/david-ayikambey-3774081a4" aria-label="LinkedIn" title="LinkedIn">
+        <svg viewBox="0 0 24 24"><path d="M20.4 2H3.6A1.6 1.6 0 0 0 2 3.6v16.8A1.6 1.6 0 0 0 3.6 22h16.8a1.6 1.6 0 0 0 1.6-1.6V3.6A1.6 1.6 0 0 0 20.4 2zM8 19H5V9.5h3V19zM6.5 8.2a1.7 1.7 0 1 1 0-3.5 1.7 1.7 0 0 1 0 3.5zM19 19h-3v-4.6c0-1.1 0-2.5-1.5-2.5S12.8 13 12.8 14.3V19h-3V9.5h2.8v1.3c.4-.8 1.4-1.5 2.9-1.5 3.1 0 3.6 2 3.6 4.6V19z"/></svg></a>
+      <a href="mailto:ayidavid@iastate.edu" aria-label="Email" title="Email">
+        <svg viewBox="0 0 24 24"><path d="M3 5h18a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V6a1 1 0 0 1 1-1zm9 7.2L4 7.3V17h16V7.3l-8 4.9zM5.2 7 12 11.1 18.8 7H5.2z"/></svg></a>
+      <a href="cv.pdf" target="_blank" aria-label="CV" title="Download CV">
+        <svg viewBox="0 0 24 24"><path d="M6 2h9l5 5v13a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2zm8 1.5V8h4.5L14 3.5zM8 12v2h8v-2H8zm0 4v2h5v-2H8z"/></svg></a>
+      <button class="theme-btn" aria-label="Toggle dark mode" title="Light / dark" onclick="toggleTheme()">
+        <svg viewBox="0 0 24 24"><path d="M12 3a9 9 0 1 0 9 9 7 7 0 0 1-9-9z"/></svg></button>
+    </div>
+  </aside>
+
+  <!-- ===================== MAIN ===================== -->
+  <main>
+    <section id="about" class="hero">
+      <p class="eyebrow">Hello, I'm David</p>
+      <h2>Better estimates for <span>small areas</span>, from survey data.</h2>
+      <p class="lead">I am a Ph.D. student in Statistics at Iowa State University, advised by
+        <strong>Dr. Emily J. Berg</strong>.</p>
+      <p>I work on <strong>small area estimation</strong>: getting reliable estimates for districts, counties
+        and other groups where the survey sample is small. My work covers zero-inflated log-normal models and
+        mixed-effects machine learning. I do most of it in R.</p>
+      <p>I earned my B.Sc. in Statistics from Kwame Nkrumah University of Science and Technology in Kumasi, Ghana.</p>
+      <div class="chips">
+        <span class="chip">Small Area Estimation</span>
+        <span class="chip">Mixed Models</span>
+        <span class="chip">Survey Sampling</span>
+        <span class="chip">Statistical Machine Learning</span>
+        <span class="chip">Monte Carlo Simulation</span>
+      </div>
+      <div class="cta">
+        <a class="btn primary" href="cv.pdf" target="_blank">Download CV</a>
+        <a class="btn ghost" href="#contact">Get in touch</a>
+      </div>
+      <div class="now"><strong>Open to opportunities:</strong> I am looking for a
+        <strong>Summer 2027 research internship</strong> in statistics or data science.</div>
+    </section>
+
+    <section id="news" class="reveal">
+      <p class="eyebrow">Latest</p>
+      <h2>News</h2>
+      <ul class="news">
+        <li><span class="date">Summer 2026</span><span>Mathematics Teaching Assistant with Thrive Scholars' Summer Academy in St. Louis, MO.</span></li>
+        <li><span class="date">May 2026</span><span>Completed my M.S. in Statistics at Iowa State University.</span></li>
+        <li><span class="date">2025</span><span>Received the Graduate Teaching Excellence Award from the ISU Department of Statistics.</span></li>
+      </ul>
+    </section>
+
+    <section id="education" class="reveal">
+      <p class="eyebrow">Background</p>
+      <h2>Education</h2>
+      <ul class="timeline">
+        <li><span class="when">Aug 2025 – May 2028 (expected)</span>
+          <h3>Ph.D. in Statistics</h3>
+          <p class="where">Iowa State University, Ames, IA · Advisor: Dr. Emily J. Berg</p>
+          <p style="margin:6px 0 0">Model-based small area estimation for skewed and semicontinuous survey variables.
+            Passed the Ph.D. written qualifying exams; preparing for the oral preliminary exam.</p></li>
+        <li><span class="when">Aug 2023 – May 2026</span>
+          <h3>M.S. in Statistics</h3>
+          <p class="where">Iowa State University, Ames, IA · Advisor: Dr. Emily J. Berg</p>
+          <p style="margin:6px 0 0">Thesis: <em>Mixed effects random forests for small area estimation under a log-normal response.</em></p></li>
+        <li><span class="when">Aug 2018 – Sept 2022</span>
+          <h3>B.Sc. in Statistics</h3>
+          <p class="where">Kwame Nkrumah University of Science and Technology, Kumasi, Ghana</p></li>
+      </ul>
+    </section>
+
+    <section id="research" class="reveal">
+      <p class="eyebrow">What I work on</p>
+      <h2>Research</h2>
+      <p>I am a Graduate Research Assistant with Dr. Emily J. Berg (since Aug 2023). I build and test small
+        area estimation methods using simulation studies.</p>
+      <div class="cards">
+        <div class="card"><h3>Mixed effects random forests for small area estimation</h3>
+          <p>My M.S. thesis. Random forests combined with random area effects to estimate area means
+            when the response is log-normal.</p>
+          <span class="tag">M.S. thesis</span></div>
+        <div class="card"><h3>Super learner for small area estimation</h3>
+          <p>Combines several machine learning methods (random forests, gradient boosting, SVR and a linear
+            model) inside a mixed model, tested on mean income for 70 Austrian districts (EU-SILC).</p>
+          <span class="tag">Current</span><span class="tag">R</span></div>
+        <div class="card"><h3>Zero-inflated log-normal models</h3>
+          <p>A model for survey variables that have many exact zeros and skewed positive values, such as
+            income components and expenditures.</p>
+          <span class="tag">Dissertation</span><span class="tag">In progress</span></div>
+      </div>
+    </section>
+
+    <section id="manuscripts" class="reveal">
+      <p class="eyebrow">Papers</p>
+      <h2>Manuscripts in Preparation</h2>
+      <ul class="timeline">
+        <li><h3>Small area estimation with a super learner: combining machine learning methods within the mixed model</h3>
+          <p class="where">D. Ayikambey and E. J. Berg</p>
+          <p style="margin:6px 0 0">Instead of choosing one machine learning method, we combine several of them
+            inside a mixed model and let the data decide how much each one counts.</p></li>
+        <li><h3>Small area estimation for survey variables with many zeros: a zero-inflated log-normal approach</h3>
+          <p class="where">D. Ayikambey and E. J. Berg</p>
+          <p style="margin:6px 0 0">A model for variables that are zero for many people and skewed for the rest,
+            used to estimate area means and their uncertainty.</p></li>
+      </ul>
+    </section>
+
+    <section id="projects" class="reveal">
+      <p class="eyebrow">Selected graduate work</p>
+      <h2>Projects</h2>
+      <div class="cards">
+        <div class="card"><h3>Dirichlet regression for crop acreage shares</h3>
+          <p>Modeled California crop acreage shares as one compositional system. Fixed weak identification with profile
+            likelihood and built confidence bands with the multivariate delta method.</p>
+          <span class="tag">2025</span><span class="tag">Compositional data</span></div>
+        <div class="card"><h3>Growth curves with AR(1) errors</h3>
+          <p>Fit Gompertz and AR(1)-error models to 50 years of harvested-acreage data, using composite likelihood,
+            parametric bootstrap intervals and a 50,000-replicate simulation.</p>
+          <span class="tag">2025</span><span class="tag">Time series</span></div>
+        <div class="card"><h3>AFT models and GLMs for lifetime data</h3>
+          <p>Showed the equivalence of exponential and gamma AFT models with log-link GLMs, and selected models
+            with deviance-based likelihood ratio tests.</p>
+          <span class="tag">2024</span><span class="tag">Survival analysis</span></div>
+      </div>
+    </section>
+
+    <section id="teaching" class="reveal">
+      <p class="eyebrow">In the classroom and beyond</p>
+      <h2>Teaching &amp; Experience</h2>
+      <ul class="timeline">
+        <li><span class="when">Aug 2023 – Present</span>
+          <h3>Graduate Teaching Assistant</h3>
+          <p class="where">Department of Statistics, Iowa State University</p>
+          <p style="margin:6px 0 0">STAT 1010 (Principles of Statistics), STAT 2260 (Business Statistics),
+            STAT 3005 (Statistics for Engineers), STAT 3300 (Statistics for Computer Scientists).</p></li>
+        <li><span class="when">June 2026 – Aug 2026</span>
+          <h3>Mathematics Teaching Assistant (Summer Internship)</h3>
+          <p class="where">Thrive Scholars Summer Academy, St. Louis, MO</p></li>
+        <li><span class="when">Nov 2022 – Aug 2023</span>
+          <h3>Teaching and Research Assistant</h3>
+          <p class="where">Department of Statistics, KNUST, Kumasi, Ghana</p></li>
+        <li><span class="when">July 2021 – Dec 2021</span>
+          <h3>Assistant Underwriter and Data Analyst</h3>
+          <p class="where">Donewell Life Insurance Company, Accra, Ghana</p></li>
+        <li><span class="when">Nov 2019 – Apr 2020</span>
+          <h3>Examination Script Verifier</h3>
+          <p class="where">West African Examinations Council (WAEC), Accra, Ghana</p></li>
+        <li><span class="when">May 2016 – Aug 2017</span>
+          <h3>School Tutor</h3>
+          <p class="where">Solid Rock Foundation School, Accra, Ghana</p></li>
+      </ul>
+    </section>
+
+    <section id="awards" class="reveal">
+      <p class="eyebrow">Recognition</p>
+      <h2>Honors &amp; Awards</h2>
+      <div class="cards">
+        <div class="card"><h3>Graduate Teaching Excellence Award</h3>
+          <p>Department of Statistics, Iowa State University</p><span class="tag">2025</span></div>
+      </div>
+    </section>
+
+    <section id="skills" class="reveal">
+      <p class="eyebrow">Toolkit</p>
+      <h2>Skills</h2>
+      <div class="skills">
+        <div><h3>Programming</h3><p>R (advanced), Python, SAS, SPSS, JMP, LaTeX, Git</p></div>
+        <div><h3>R packages</h3><p>lme4, ranger, gbm, e1071, SuperLearner, SAEforest, tidyverse, parallel</p></div>
+        <div><h3>Statistics</h3><p>Small area estimation, mixed models, survey sampling, GLMs, survival analysis, time series</p></div>
+        <div><h3>Machine learning</h3><p>Random forests, gradient boosting, SVR, stacking, cross-validation for clustered data</p></div>
+        <div><h3>Computation</h3><p>Profile &amp; composite likelihood, EM algorithms, parametric bootstrap, parallel Monte Carlo</p></div>
+      </div>
+    </section>
+
+    <section id="contact" class="reveal">
+      <div class="contact">
+        <p class="eyebrow" style="color:var(--gold)">Say hello</p>
+        <h2>Contact</h2>
+        <p>I'm happy to talk about small area estimation, research collaborations, or internship opportunities.</p>
+        <p>📧 <a href="mailto:ayidavid@iastate.edu">ayidavid@iastate.edu</a><br>
+           💼 <a href="https://www.linkedin.com/in/david-ayikambey-3774081a4">linkedin.com/in/david-ayikambey</a><br>
+           📍 Department of Statistics, Iowa State University, 2438 Osborn Drive, Ames, IA 50011</p>
+      </div>
+    </section>
+
+    <footer>© <span id="yr"></span> David Ayikambey</footer>
+  </main>
+</div>
+
+<script>
+  document.getElementById('yr').textContent = new Date().getFullYear();
+
+  function toggleTheme() {
+    const r = document.documentElement;
+    const isDark = r.dataset.theme ? r.dataset.theme === 'dark'
+                 : matchMedia('(prefers-color-scheme: dark)').matches;
+    r.dataset.theme = isDark ? 'light' : 'dark';
+    try { localStorage.setItem('theme', r.dataset.theme); } catch (e) {}
+  }
+  try { const t = localStorage.getItem('theme'); if (t) document.documentElement.dataset.theme = t; } catch (e) {}
+
+  // Fade sections in as you scroll
+  const io = new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } }), { threshold: .12 });
+  document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+
+  // Highlight the current section in the sidebar
+  const links = [...document.querySelectorAll('.side-nav a')];
+  const spy = new IntersectionObserver(es => es.forEach(e => {
+    if (e.isIntersecting) links.forEach(a => a.classList.toggle('active', a.getAttribute('href') === '#' + e.target.id));
+  }), { rootMargin: '-40% 0px -55% 0px' });
+  document.querySelectorAll('main section').forEach(s => spy.observe(s));
+</script>
+</body>
+</html>
